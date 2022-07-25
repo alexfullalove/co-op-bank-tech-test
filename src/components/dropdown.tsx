@@ -5,21 +5,31 @@ import Autocomplete from "@mui/material/Autocomplete";
 import { Currency } from "./currency-converter";
 
 interface Props {
+  selectedCurrency: Currency | undefined;
   currencies: Currency[];
   setCurrency: React.Dispatch<React.SetStateAction<Currency | undefined>>;
 }
 
-export const CountrySelect: React.FC<Props> = ({ currencies, setCurrency }) => {
-  const handleCountrySelect = (event: any, value: any) => {
-    setCurrency(value);
+export const CountrySelect: React.FC<Props> = ({
+  selectedCurrency,
+  currencies,
+  setCurrency,
+}) => {
+  const handleCountrySelect = (event: any, value: Currency | null) => {
+    setCurrency(value!);
   };
 
   return (
     <Autocomplete
-      id="country-select-demo"
+      id="size-small-standard"
       sx={{ width: "100%", margin: "auto", paddingTop: 3 }}
       options={currencies}
       autoHighlight
+      value={
+        selectedCurrency
+          ? { label: selectedCurrency?.label, code: selectedCurrency?.code }
+          : null
+      }
       getOptionLabel={(option) => `${option.label} (${option.code})`}
       onChange={(event, value) => handleCountrySelect(event, value)}
       renderOption={(props, option) => (
@@ -46,7 +56,8 @@ export const CountrySelect: React.FC<Props> = ({ currencies, setCurrency }) => {
         <div>
           <TextField
             {...params}
-            label="Choose a country"
+            variant="standard"
+            label="Choose a currency"
             inputProps={{
               ...params.inputProps,
               autoComplete: "new-password", // disable autocomplete and autofill
