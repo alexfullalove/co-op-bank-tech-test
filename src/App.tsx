@@ -4,7 +4,7 @@ import { CurrencyConverter } from "./components/currency-converter";
 
 const App: React.FC = (): JSX.Element => {
   return (
-    <div>
+    <div className="bg-gray-200">
       <div className="max-w-4xl m-auto pb-6 pt-14">
         <CurrencyConverter />
       </div>
