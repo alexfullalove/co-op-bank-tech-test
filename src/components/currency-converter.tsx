@@ -11,16 +11,17 @@ export interface Currency {
 
 export const CurrencyConverter: React.FC = (): JSX.Element => {
   const [currencies, setCurrencies] = useState<any>();
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState<string>("");
   const [firstSelectedCurrency, setFirstSelectedCurrency] = useState<
     Currency | undefined
   >();
   const [secondSelectedCurrency, setSecondSelectedCurrency] = useState<
     Currency | undefined
   >();
-  const [conversion, setConversion] = useState<any>();
+  const [conversion, setConversion] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
 
-  const mapCurrencyData = (currencyData: any) => {
+  const mapCurrencyData = (currencyData: Currency[]) => {
     const currencyArr = [];
     for (const currency in currencyData) {
       currencyArr.push({ code: currency, label: currencyData[currency] });
@@ -36,14 +37,20 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
     fetchData().catch(console.error);
   }, []);
 
-  const fetchCurrencyConversion = async (e: any) => {
+  const fetchCurrencyConversion = async (e: any): Promise<void> => {
     e.preventDefault();
     if (firstSelectedCurrency && secondSelectedCurrency) {
       const response = await getConversions(firstSelectedCurrency.code);
       const rate = response.data.rates[secondSelectedCurrency.code];
-      const exchangeRate = (rate * amount).toFixed(3);
+      const exchangeRate = (rate * +amount).toFixed(3);
       setConversion(exchangeRate);
     }
+  };
+
+  const handleInput = (value: string): void => {
+    setAmount(value);
+    const numberValidation = new RegExp(/^(-?\d+\.\d+)$|^(-?\d+)$/gm);
+    numberValidation.test(value) ? setError(false) : setError(true);
   };
 
   return (
@@ -54,7 +61,8 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
       <form onSubmit={(e) => fetchCurrencyConversion(e)}>
         <div>
           <TextField
-            onChange={(e) => setAmount(+e.target.value)}
+            error={error}
+            onChange={(e) => handleInput(e.target.value)}
             id="outlined-basic"
             label="Enter Amount"
             variant="outlined"
