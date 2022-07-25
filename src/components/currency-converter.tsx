@@ -62,6 +62,7 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
         <div>
           <TextField
             error={error}
+            helperText={error ? "Please enter a valid number" : ""}
             onChange={(e) => handleInput(e.target.value)}
             id="outlined-basic"
             label="Enter Amount"
