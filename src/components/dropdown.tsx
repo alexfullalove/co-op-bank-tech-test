@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { SyntheticEvent } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -15,8 +15,13 @@ export const CountrySelect: React.FC<Props> = ({
   currencies,
   setCurrency,
 }) => {
-  const handleCountrySelect = (event: any, value: Currency | null) => {
-    setCurrency(value!);
+  const handleCountrySelect = (
+    event: SyntheticEvent<Element | Event>,
+    value: Currency | null
+  ) => {
+    if (value) {
+      setCurrency(value);
+    }
   };
 
   return (

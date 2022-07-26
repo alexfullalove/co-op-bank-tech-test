@@ -22,7 +22,7 @@ export const CountDown: React.FC<Props> = ({ handleReset }): JSX.Element => {
 
   return (
     <p>
-      {minutes}' {seconds}''
+      Expires in: {minutes}' {seconds}''
     </p>
   );
 };

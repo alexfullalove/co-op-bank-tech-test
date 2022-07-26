@@ -5,6 +5,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { CountDown } from "./countdown-timer";
+import "./styles/currency-converter.css";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 
 export interface Currency {
   code: string;
@@ -76,21 +78,33 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
   };
 
   return (
-    <section className="pt-14 bg-white pb-14 px-6 shadow">
-      <h1 className="text-2xl font-semibold pb-5">Currency Converter</h1>
-      <Button onClick={swapCurrencies}>Switch</Button>
+    <section className="section">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
-          <TextField
-            error={error}
-            value={amount}
-            helperText={error ? "Please enter a valid number" : ""}
-            onChange={(e) => handleInput(e.target.value)}
-            id="standard-basic"
-            label="Enter Amount"
-            variant="standard"
-            sx={{ width: "100%" }}
-          />
+        <div className="input-container">
+          <div className="text-input">
+            <TextField
+              error={error}
+              value={amount}
+              helperText={error ? "Please enter a valid number" : ""}
+              onChange={(e) => handleInput(e.target.value)}
+              id="standard-basic"
+              label="Enter Amount"
+              variant="standard"
+              sx={{ width: "100%" }}
+            />
+          </div>
+          <div className="switch-button">
+            <Button
+              sx={{
+                width: "80%",
+                height: 50,
+                marginTop: 0.5,
+              }}
+              onClick={swapCurrencies}
+            >
+              <SwapHorizIcon />
+            </Button>
+          </div>
         </div>
         <div>
           <CountrySelect
@@ -106,16 +120,16 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
             setCurrency={setSecondSelectedCurrency}
           />
         </div>
-        <div className="w-full pt-4">
+        <div className="conversion-container">
           {!converting ? (
-            <div className="m-auto ">
+            <div className="conversion">
               {conversion && (
-                <p className="text-center">
-                  <span className="font-semibold">
+                <p>
+                  <span className="bold-text">
                     {amount} {firstSelectedCurrency?.code}
                   </span>{" "}
                   is equivalent to{" "}
-                  <span className="font-semibold">
+                  <span className="bold-text">
                     {conversion} {secondSelectedCurrency?.code}
                   </span>
                   <CountDown handleReset={handleReset} />
@@ -123,14 +137,14 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
               )}
             </div>
           ) : (
-            <div className="m-auto text-center">
+            <div className="conversion">
               <CircularProgress />
             </div>
           )}
         </div>
         <div>
           <Button
-            sx={{ width: "100%", height: 50, marginTop: 3 }}
+            sx={{ width: "100%", height: 50, marginTop: 3, borderRadius: 8 }}
             type="submit"
             disabled={
               !amount || !firstSelectedCurrency || !secondSelectedCurrency
