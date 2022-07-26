@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# Co-op Bank Tech Test
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Introduction
 
-## Available Scripts
+Here is my solition to Co-op bank front end tech test.
 
-In the project directory, you can run:
+In the test I was tasked with building a currency converter to gather a list of countries from the below API:
 
-### `npm start`
+- `https://openexchangerates.org/api/currencies.json`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+And return a given echange rate based on user input from the following API:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- `https://api.exchangerate-api.com/v4/latest/GBP`
 
-### `npm test`
+A bonus task was to use flag images from the following:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- https:/flagpedia.net/download/api
 
-### `npm run build`
+I have used a combination of React, Typescript and Material UI in order to build my version of the currency converter. I have included an input field with validation for the user to enter the amount to convert. There is two dropdowns with flag icons which are searchable for the the user to select a currency. There is a switch button to change them over and there is a convert button which will displayer conversion for a given currency and a timer which will reset after 10 minutes and clear the conversion.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `How to use`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Once you have forked and cloned the repo run the following:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+```
 
-### `npm run eject`
+- In order to start the projet run the following command, and navigate to localhost:3000 in your chosen browser if not done automatically:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- To run the tests run the following:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm test
+```
