@@ -13,6 +13,38 @@ export interface Currency {
   label: string;
 }
 
+export interface Currencies {
+  [key: string]: string;
+}
+
+export interface Rates {
+  [key: string]: number;
+}
+
+export const mapCurrencyData = (currencyData: Currencies) => {
+  const currencyArr = [];
+  for (const currency in currencyData) {
+    currencyArr.push({
+      code: currency,
+      label: String(currencyData[currency]),
+    });
+  }
+  return currencyArr;
+};
+
+export const getCurrencyConversion = (
+  rates: Rates,
+  currencyCode: string,
+  conversionAmount: string
+): string => {
+  const rate = rates[currencyCode];
+  let conversion = "";
+  if (rate) {
+    conversion = (rate * +conversionAmount).toFixed(2);
+  }
+  return conversion;
+};
+
 export const CurrencyConverter: React.FC = (): JSX.Element => {
   const [converting, setConverting] = useState<boolean>(false);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -26,17 +58,6 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
   const [conversion, setConversion] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
 
-  const mapCurrencyData = (currencyData: Currency[]) => {
-    const currencyArr = [];
-    for (const currency in currencyData) {
-      currencyArr.push({
-        code: currency,
-        label: String(currencyData[currency]),
-      });
-    }
-    return currencyArr;
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       const data = await getCurrencies();
@@ -49,8 +70,11 @@ export const CurrencyConverter: React.FC = (): JSX.Element => {
     setConverting(true);
     if (firstSelectedCurrency && secondSelectedCurrency) {
       const response = await getConversions(firstSelectedCurrency.code);
-      const rate = response.data.rates[secondSelectedCurrency.code];
-      const exchangeRate = (rate * +amount).toFixed(2);
+      const exchangeRate = getCurrencyConversion(
+        response.data.rates,
+        secondSelectedCurrency.code,
+        amount
+      );
       setConversion(exchangeRate);
     }
     setConverting(false);
